@@ -3,9 +3,17 @@
 - [xs_mc](xs_mc.py) contains the cross sections for the different samples and (H<sub>T</sub>/p<sub>T</sub>/...) slices per sample.
 - [scale_to_integrated_lumi](scale_to_integrated_lumi.py) is called from [hadd_scale_merge](hadd_scale_merge.py)
   for normalization to the integrated luminosity of the data.
-- [hadd_scale_merge](hadd_scale_merge.py) is the main executable to be run as:
+- [hadd_scale_merge](hadd_scale_merge.py) is the main executable to be run as (CDEFG lumi):
   ```bash 
-  python3 hadd_scale_merge.py -d /pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/G-4Jets_HT* -l 34651.77 -o G-4Jets.root
+  python3 hadd_scale_merge.py -d /pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/WithResiduals/Unprescaled/G-4Jets_HT* -l 34651.77 -o G-4Jets_CDEFG.root
+  ```
+  or
+  ```bash 
+  python3 hadd_scale_merge.py -d /pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/WithResiduals/Unprescaled/G-4Jets_HT* -l 7980.46 -o G-4Jets_CD.root
+  ```
+  or
+  ```bash 
+  python3 hadd_scale_merge.py -d /pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/WithResiduals/Unprescaled/G-4Jets_HT* -l 26671.31 -o G-4Jets_EFG.root
   ```
   ❗Adapt input folder(s) path `(-d)`, luminosity `(-l)` and output filename `(-o)`  
   ❗For the luminosities check the [lumi](https://github.com/pgianneios/MacrosNtuples/tree/main/zorphotonjet_jecs/lumi) directory

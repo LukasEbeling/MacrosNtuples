@@ -9,8 +9,7 @@ config_dict = {
     "JetMET" : # for JetMET plots
         {
             "datasets" : ["JetMET0","JetMET1"],
-            "eras" : ["Run2024E"],
-            # "campaigns" : ["Run2024D-PromptReco"],
+            "eras" : ["Run2024*"],
             "scripts": [
                 "python3 performances_nano.py -i $INFILE -o $OUTDIR/all_DiJet.root -c DiJet",  
                 "python3 ../plotting/make_DiJet_plots.py --dir $OUTDIR --config ../config_cards/full_DiJet.yaml",
@@ -19,8 +18,7 @@ config_dict = {
     "EGamma" : # for JetMET plots
         {
             "datasets" : ["EGamma0","EGamma1"],
-            "eras" : ["Run2024E"],
-            # "campaigns" : ["Run2024D-PromptReco"],
+            "eras" : ["Run2024*"],
             "scripts": [
                 "python3 performances_nano.py -i $INFILE -o $OUTDIR/all_PhotonJet.root -c PhotonJet",
                 "python3 performances_nano.py -i $INFILE -o $OUTDIR/all_ZToEE.root -c ZToEE",
@@ -35,9 +33,7 @@ config_dict = {
     "Muon" : # for JetMET plots
         {
             "datasets" : ["Muon0","Muon1"],
-            "eras" : ["Run2024E"],
-            # "campaigns" : ["Run2024D-PromptReco"],
-            
+            "eras" : ["Run2024*"],            
             "scripts" : [
                 "/bin/python3 performances_nano.py -i $INFILE -o $OUTDIR/all_ZToMuMu.root -c ZToMuMu",
                 "/bin/python3 performances_nano.py -i $INFILE -o $OUTDIR/all_MuonJet.root -c MuonJet",
@@ -57,8 +53,6 @@ config_dict = {
 }
 
 
-
-
 import random
 
 for label, config in config_dict.items():
@@ -71,7 +65,6 @@ for label, config in config_dict.items():
     for dataset in config["datasets"]:
         for era in config["eras"]:
             fnames += glob(f"{path_prefix}/{era}/{dataset}/NANOAOD/PromptReco-v*/*/*/*/*/*.root")
-
 
     # print(fnames)
     if len(fnames) > 0:
@@ -94,7 +87,7 @@ for label, config in config_dict.items():
     outdir = f"{era}/{dataset}/{reco_version}/{run}/{base_fname}"
 
     # check output exists
-    out_web_path = "/eos/home-a/alobanov/www/L1T/Run3/DQM/devAutoNanoNoSh/"  + outdir
+    out_web_path = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit/"  + outdir
 
     if os.path.exists(out_web_path):
         # out_web_path + "_1"
@@ -120,7 +113,7 @@ for label, config in config_dict.items():
 
         print(f"Going to process {fname} and store output here: {out_web_path}")
         #ret = subprocess.run([script_path, out_web_path, fname, ">> logs"],)
-        print(script.split(" "))
+        # print(script.split(" "))
         if "/" in script.split(" ")[-1]:
             log_fname = out_web_path + "/" + os.path.basename(script.split(" ")[-1])+".log"
         else:

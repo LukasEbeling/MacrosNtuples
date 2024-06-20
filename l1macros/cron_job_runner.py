@@ -66,7 +66,7 @@ for label, config in config_dict.items():
         for era in config["eras"]:
             fnames += glob(f"{path_prefix}/{era}/{dataset}/NANOAOD/PromptReco-v*/*/*/*/*/*.root")
 
-    # print(fnames)
+    #print(fnames)
     if len(fnames) > 0:
         # do random choice for now
         fname = random.choice(fnames)
@@ -74,7 +74,7 @@ for label, config in config_dict.items():
         ## take the latest file from T0 eos 
         #fname = fnames[-1]
     else:
-        exit(0)
+        continue
 
     ## decode file path to run, era etc
     fname_split = fname.split("/")    
@@ -93,13 +93,13 @@ for label, config in config_dict.items():
         # out_web_path + "_1"
         print("Output already exists!")
         print(out_web_path)
-        exit(0)
+        continue
     else:
         os.makedirs(out_web_path)
         os.makedirs(out_web_path+"/plotsL1Run3") # for plots
     ### Main part: run the performance code
 
-    script_dir = "/afs/cern.ch/work/a/alobanov/L1T/run3/DQM/AutoFwk/l1macros/"
+    script_dir = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/MacrosNtuples/l1macros"
     os.chdir(script_dir)
 
     for script in config["scripts"]:
@@ -107,7 +107,6 @@ for label, config in config_dict.items():
         print(80*"#")
         print(script)
         print(80*"#")
-
 
         script = script.replace("$INFILE",fname).replace("$OUTDIR",out_web_path)
 

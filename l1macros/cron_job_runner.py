@@ -87,7 +87,8 @@ for label, config in config_dict.items():
     outdir = f"{era}/{dataset}/{reco_version}/{run}/{base_fname}"
 
     # check output exists
-    out_web_path = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit/"  + outdir
+    #out_web_path = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit/"  + outdir
+    out_web_path = "/eos/home-l/lebeling/www/DQM/" + outdir 
 
     if os.path.exists(out_web_path):
         # out_web_path + "_1"
@@ -99,7 +100,8 @@ for label, config in config_dict.items():
         os.makedirs(out_web_path+"/plotsL1Run3") # for plots
     ### Main part: run the performance code
 
-    script_dir = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/MacrosNtuples/l1macros"
+    #script_dir = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/MacrosNtuples/l1macros"
+    script_dir = "/eos/home-l/lebeling/projects/MacrosNtuples/l1macros"
     os.chdir(script_dir)
 
     for script in config["scripts"]:

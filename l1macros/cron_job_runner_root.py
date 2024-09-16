@@ -57,13 +57,18 @@ config_dict = {
         }
 }
 
-def run_script(script, infile, outdir):
-    if os.path.exists(outdir): return
+# get number of root files in a directory
+def get_root_files(path): 
+    files = glob(f"{path}/*.root")
+    return len(files)
 
+
+# run a given script with defined output directory
+def run_script(script, infile, outdir):
+    #infile = 'root://eoscms.cern.ch/' + infile
     os.chdir(script_dir)
     os.makedirs(outdir, exist_ok=True)
     cmd = script.replace("$INFILE", infile).replace("$OUTDIR", outdir)
-    #cmd = ""
 
     log_file = script.split(' ')[1]
     log_file = log_file.split('/')[-1]
@@ -75,6 +80,7 @@ def run_script(script, infile, outdir):
     print(f"    Processing file {fname}")
 
 
+# main logic: run plotting scripts for each new file and merge per run, era and year
 for label, config in config_dict.items():
     print(80*"#")
     print(f"Running plots for {label}")
@@ -86,6 +92,7 @@ for label, config in config_dict.items():
         for era in config["eras"]:
             fnames += glob(f"{path_prefix}/{era}/{dataset}/NANOAOD/PromptReco-v*/*/*/*/*/*.root")
 
+    fnames = fnames[:2]
     # step 2 - for each file, run scripts
     for fname in fnames:
 
@@ -97,10 +104,17 @@ for label, config in config_dict.items():
         era = fname.split("/")[6]
         reco_version = fname.split("/")[9]
 
-        outdir = f"{era}/{label}/{reco_version}/{run}/{base_fname}"
+        year = ''.join([char for char in era if char.isdigit()])
+
+        outdir = f"{year}/{era}/{label}/{reco_version}/{run}/{base_fname}"
 
         #out_web_path = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit/"  + outdir
         out_web_path = "/eos/home-l/lebeling/www/DQM/" + outdir 
 
-        for script in config["scripts"]:
+        if os.path.exists(out_web_path):
+            if get_root_files(out_web_path) > 0: 
+                print(f"Skipping {out_web_path} - already processed")
+                continue
+
+        for script in config["scripts"]: 
             run_script(script, fname, out_web_path)

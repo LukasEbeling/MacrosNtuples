@@ -13,9 +13,9 @@ sys.path.insert(1, '../..') # for importing the binning from another directory
 from binning import *
 
 # Data input
-infile_dt = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/EGamma/RunCDEFG_unprescaled.root')
+infile_dt = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/EGamma/WithResiduals/Unprescaled/RunEFG.root')
 # MC input
-infile_MC = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/Unprescaled/G-4Jets.root')
+infile_MC = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/WithResiduals/Unprescaled/G-4Jets_EFG.root')
 
 # Get the 2D histograms with the pt balance and create the Y projections
 keys_dt = infile_dt.GetListOfKeys() # Data
@@ -128,8 +128,8 @@ for e in range(NetaBins):
             l.Draw()
 
             gPad.RedrawAxis()
-            #c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '_' + str_binpts[p] + '.png')
-            c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '_' + str_binpts[p] + '.pdf')
+            c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '_' + str_binpts[p] + '.png')
+            #c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '_' + str_binpts[p] + '.pdf')
             c.Update()
             index += 1
 
@@ -186,8 +186,8 @@ for e in range(NetaBins):
         l.Draw()
 
         gPad.RedrawAxis()
-        #c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '.png')
-        c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '.pdf')
+        c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '.png')
+        #c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + '_' + str_binalphas[a] + '.pdf')
         index += NptBins
 
 # Then for each eta and each pt bin we take the mean (pt balance) and draw it as a function of alpha
@@ -265,7 +265,7 @@ for e in range(NetaBins):
 
         c = TCanvas(str1+str2, str1+str2, 1000, 1000)
         gStyle.SetOptStat(0)
-        h_jetresponse_dt[index].GetXaxis().SetRangeUser(0.0,0.3)
+        h_jetresponse_dt[index].GetXaxis().SetRangeUser(0.0,1.0)
         h_jetresponse_dt[index].SetTitle('p_{T} balance: #eta=' + str1 + ', ' + 'p_{T}^{#gamma}=' + str2)
         h_jetresponse_dt[index].GetXaxis().SetTitle('#alpha')
         h_jetresponse_dt[index].GetXaxis().SetTitleSize(0.045)
@@ -293,6 +293,6 @@ for e in range(NetaBins):
         leg.Draw()
 
         gPad.RedrawAxis()
-        #c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.png')
-        c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.pdf')
+        c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.png')
+        #c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.pdf')
         index += 1

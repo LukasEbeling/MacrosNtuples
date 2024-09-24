@@ -1,7 +1,7 @@
 import ROOT
 import correctionlib._core as core
 
-cornames = ['L1FastJet', 'L2Relative', 'L3Absolute']
+cornames = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 
 cset = core.CorrectionSet.from_file('2022_Summer22/jet_jerc.json.gz')
 for c in cornames:

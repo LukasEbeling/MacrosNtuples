@@ -12,9 +12,9 @@ sys.path.insert(1, '../..') # for importing the binning from another directory
 from binning import *
 
 # Data input
-infile_dt = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/EGamma/RunCDEFG_unprescaled.root')
+infile_dt = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/EGamma/WithResiduals/Unprescaled/RunEFG.root')
 # MC input
-infile_MC = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/Unprescaled/G-4Jets.root')
+infile_MC = TFile('/pnfs/iihe/cms/store/user/gparaske/JEC/2022/G-4Jets/WithResiduals/Unprescaled/G-4Jets_EFG.root')
 
 # Get the 2D histograms with the pt balance and create the Y projections
 keys_dt = infile_dt.GetListOfKeys() # Data 
@@ -168,8 +168,8 @@ for e in range(NetaBins):
         l.Draw()
 
         gPad.RedrawAxis()
-        #c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.png')
-        c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.pdf')
+        c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.png')
+        #c.SaveAs(dir0 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.pdf')
         index += 1
 
 dir1 = 'jet_response_alpha_1p0'
@@ -189,7 +189,7 @@ for e in range(NetaBins):
         h_ptBalance_alpha_incl_1p0_dt[index].GetYaxis().SetLabelSize(0.03)
         h_ptBalance_alpha_incl_1p0_dt[index].GetYaxis().SetTitleOffset(1.5)
         h_ptBalance_alpha_incl_1p0_dt[index].SetLineColor(kBlue+1)
-        h_ptBalance_alpha_incl_1p0_MC[index].SetTitle('p_{T} balance: #eta=' + str1 + ', p_{T}^{#gamma}=' + str2 + ', #alpha < 0.3')
+        h_ptBalance_alpha_incl_1p0_MC[index].SetTitle('p_{T} balance: #eta=' + str1 + ', p_{T}^{#gamma}=' + str2 + ', #alpha < 1.0')
         h_ptBalance_alpha_incl_1p0_MC[index].GetXaxis().SetTitle('p_{T}^{jet}/p_{T}^{#gamma}')
         h_ptBalance_alpha_incl_1p0_MC[index].GetXaxis().SetTitleOffset(1.2)
         h_ptBalance_alpha_incl_1p0_MC[index].GetYaxis().SetTitle('Events')
@@ -222,8 +222,8 @@ for e in range(NetaBins):
         l.Draw()
         gPad.RedrawAxis()
 
-        #c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + '_' + str_binpts[p] + '.png')
-        c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.pdf')
+        c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.png')
+        #c.SaveAs(dir1 + '/ptBalance_' + str_binetas[e] + str_binpts[p] + '.pdf')
         index += 1
 
 # Then create canvases with all the pt balance plots vs pt_ref for all eta and alpha bins
@@ -288,8 +288,8 @@ for e in range(NetaBins):
     l.Draw()
     gPad.RedrawAxis()
 
-    #c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + '.png')
-    c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + '.pdf')
+    c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + '.png')
+    #c.SaveAs(dir2 + '/ptBalance_' + str_binetas[e] + '.pdf')
     index += NptBins
 
 dir3 = 'jet_response_vs_refpt_alpha_1p0'
@@ -349,6 +349,6 @@ for e in range(NetaBins):
     leg.Draw()
     gPad.RedrawAxis()
 
-    #c.SaveAs(dir3 + '/ptBalance_' + str_binetas[e] + '.png')
-    c.SaveAs(dir3 + '/ptBalance_' + str_binetas[e] + '.pdf')
+    c.SaveAs(dir3 + '/ptBalance_' + str_binetas[e] + '.png')
+    #c.SaveAs(dir3 + '/ptBalance_' + str_binetas[e] + '.pdf')
     index += NptBins

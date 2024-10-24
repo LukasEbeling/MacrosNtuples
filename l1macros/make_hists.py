@@ -31,7 +31,7 @@ for label, config in config_dict.items():
             fnames += glob(f"{path_prefix}/{era}/{dataset}/NANOAOD/PromptReco-v*/*/*/*/*/*.root")
 
     # step 2 - for each file, run scripts
-    fnames = fnames[:5]
+    # fnames = fnames[:5]
     for fname in fnames:
         print(f"Processing file {fname}")
 

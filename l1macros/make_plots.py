@@ -2,7 +2,7 @@
 
 import os, argparse, yaml
 from glob import glob
-from job_runner_utils import run_script, write_queue
+from utils import run_script, write_queue
 
 
 dqm_prefix = "/eos/user/l/lebeling/www/DQM/" # "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit/"

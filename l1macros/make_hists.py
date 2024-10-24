@@ -2,7 +2,7 @@
 
 import os, sys, subprocess, yaml, argparse
 from glob import glob
-from job_runner_utils import run_script, write_queue, parse_file
+from utils import run_script, write_queue, parse_file
 
 
 path_prefix = "/eos/cms/tier0/store/data"
@@ -31,7 +31,7 @@ for label, config in config_dict.items():
             fnames += glob(f"{path_prefix}/{era}/{dataset}/NANOAOD/PromptReco-v*/*/*/*/*/*.root")
 
     # step 2 - for each file, run scripts
-    # fnames = fnames[:5]
+    # fnames = fnames[:100]
     for fname in fnames:
         print(f"Processing file {fname}")
 

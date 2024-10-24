@@ -1,0 +1,18 @@
+executable              = wrapper.py
+arguments               = $(cmd)
+output                  = logs/$(ClusterId).$(ProcId).out
+error                   = logs/$(ClusterId).$(ProcId).err
+log                     = logs/$(ClusterId).$(ProcId).log
++JobFlavour             = espresso
+
+
+#output_destination      = root://eosuser.cern.ch/$(path)
+#should_transfer_files   = YES
+#MY.XRDCP_CREATE_DIR     = True
+
+transfer_input_files    = /afs/cern.ch/user/l/lebeling/MacrosNtuples
+#+PostCmd                = "MacrosNtuples/htcondor/copy.sh"
+
+#transfer_output_files   = $(out)
+
+queue cmd from queue.txt

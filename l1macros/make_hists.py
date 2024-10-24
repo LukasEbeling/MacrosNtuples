@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import os, sys, subprocess, yaml
+import os, sys, subprocess, yaml, argparse
 from glob import glob
 from job_runner_utils import run_script, write_queue, parse_file
 
@@ -11,6 +11,16 @@ script_dir = os.getcwd()
 config_dict = yaml.safe_load(open('config.yaml', 'r'))
 
 
+# parse arguments
+parser = argparse.ArgumentParser(description="Run plots for datasets")
+parser.add_argument('--local', action='store_true', help='run locally (not on condor)')
+args = parser.parse_args()
+local = args.local
+
+if not local: os.system('rm -rf ../htcondor/queue.txt')
+
+
+# main logic: glob files on tier 0 and run plotting scripts
 for label, config in config_dict.items():
     print(20*"#" + f" Running plots for {label} " + 20*"#")
 
@@ -34,5 +44,6 @@ for label, config in config_dict.items():
                     continue
 
         for script in config["scripts"]: 
-            run_script(script, fname, out_web_path)
-            #write_queue(script, fname, out_web_path)
+            os.makedirs(out_web_path, exist_ok=True)
+            if local: run_script(script, fname, out_web_path) # run script on current shell
+            else: write_queue(script, fname, out_web_path) # write script into htcondor queue file

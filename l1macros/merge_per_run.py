@@ -5,8 +5,8 @@ from glob import glob
 from utils import run_script, write_queue
 
 
-#dqm_prefix = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit"
-dqm_prefix = "/eos/user/l/lebeling/www/DQM" 
+dqm_prefix = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit"
+#dqm_prefix = "/eos/user/l/lebeling/www/DQM" 
 out_prefix = "/eos/user/l/lebeling/www/DQM" 
 
 # parse arguments
@@ -31,7 +31,7 @@ for file in all_files:
     filehash = parts[-2]
 
     # group by runnum 
-    target = file.replace(filehash, "merged")
+    target = file.replace(filehash, "merged").replace(dqm_prefix, out_prefix)
     if target not in file_groups:
         file_groups[target] = []
     file_groups[target].append(file)
@@ -41,7 +41,6 @@ for file in all_files:
 for target, files in file_groups.items():
     print(f"Hadding files with target {target}")
     os.makedirs(os.path.dirname(target), exist_ok=True)
-    #cmd = f'hadd -f {target} ' + ', '.join(files)
     cmd = f'hadd -f {target} ' + ' '.join(files)
     if local: run_script(cmd)
     else: write_queue(cmd)

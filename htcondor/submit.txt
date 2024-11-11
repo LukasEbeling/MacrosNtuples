@@ -10,7 +10,7 @@ log                     = logs/$(ClusterId).$(ProcId).log
 #should_transfer_files   = YES
 #MY.XRDCP_CREATE_DIR     = True
 
-transfer_input_files    = /afs/cern.ch/user/l/lebeling/MacrosNtuples
+transfer_input_files    = /afs/cern.ch/user/l/lebeling/MacrosNtuples.tar.gz
 #+PostCmd                = "MacrosNtuples/htcondor/copy.sh"
 
 #transfer_output_files   = $(out)

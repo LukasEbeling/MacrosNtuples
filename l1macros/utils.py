@@ -1,4 +1,5 @@
-import os, subprocess
+import os, subprocess, uproot
+import pandas as pd
 
 script_dir = os.getcwd()
 
@@ -46,3 +47,19 @@ def write_queue(script, infile = "", outdir = ""):
 
 #     with open("../htcondor/hists.txt", "a") as f:
 #         f.write(script + ", " + infile + ", " + outfile + ", " + option + ", " + outdir + "\n")
+
+def get_weeks():
+    oms_path = "/eos/cms/store/group/tsg/STEAM/OMSRateNtuple/2024/physics.root"
+    with uproot.open(oms_path) as f:
+        df = f["tree"].arrays(
+            filter_name = ['run', 'year', 'month', 'day'],
+            library = "pd"
+        )
+    df['date'] = pd.to_datetime(df[['year', 'month', 'day']])
+    df['week'] = df['date'].dt.isocalendar().week
+    
+    result_dict = {}
+    for _, row in df.iterrows():
+        result_dict[row['run']] = row['week']
+
+    return result_dict

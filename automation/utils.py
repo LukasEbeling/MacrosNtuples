@@ -1,7 +1,10 @@
 import os, subprocess, uproot
 import pandas as pd
 
-script_dir = os.getcwd()
+script_dir = os.path.join(os.getcwd(), "../l1macros")
+dqm_prefix = "/eos/user/l/lebeling/www/DQM" 
+out_prefix = "/eos/user/l/lebeling/www/DQM" 
+tier0 = "/eos/cms/tier0/store/data"
 
 
 def run_command(cmd, log_file = "log.txt"):

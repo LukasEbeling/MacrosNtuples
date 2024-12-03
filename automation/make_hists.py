@@ -2,7 +2,7 @@
 
 import os, sys, subprocess, yaml, argparse
 from glob import glob
-from utils import run_script, write_queue, parse_file
+from utils import write_queue, parse_file, run_command
 
 
 path_prefix = "/eos/cms/tier0/store/data"
@@ -43,7 +43,11 @@ for label, config in config_dict.items():
                     print(f"Skipping {out_web_path} - already processed")
                     continue
 
-        for script in config["scripts"]: 
+        for cmd in config["scripts"]: 
+            cmd = cmd.replace("$OUTDIR", out_web_path)
+            cmd = cmd.replace("$INFILE", fname)
+            
             os.makedirs(out_web_path, exist_ok=True)
-            if local: run_script(script, fname, out_web_path) # run script on current shell
-            else: write_queue(script, fname, out_web_path) # write script into htcondor queue file
+
+            if local: run_command(cmd, out_web_path+"/log.txt") # run script on current shell
+            else: write_queue(cmd) # write script into htcondor queue file

@@ -3,18 +3,11 @@ import pandas as pd
 
 script_dir = os.getcwd()
 
-def run_script(script, infile = "", outdir = ""):
-    infile = 'root://eoscms.cern.ch/' + infile
-    os.chdir(script_dir)
-    os.makedirs(outdir, exist_ok=True)
-    cmd = script.replace("$INFILE", infile).replace("$OUTDIR", outdir)
 
-    log_file = script.split(' ')[1]
-    log_file = log_file.split('/')[-1]
-    log_file = outdir + "/" + log_file.replace(".py", ".log")
-    
-    with open(log_file, "w") as f: 
-        subprocess.run(cmd, shell=True, stdout=f, stderr=f)
+def run_command(cmd, log_file = "log.txt"):
+    os.chdir(script_dir)
+    with open(log_file, "a") as f:
+        subprocess.run(cmd, shell=True, stdout=f, stderr=f) 
 
 
 def parse_file(fname):
@@ -37,16 +30,6 @@ def write_queue(script, infile = "", outdir = ""):
     with open("../htcondor/queue.txt", "a") as f:
         f.write(cmd + "\n")
 
-# def write_queue(script, infile, outdir):
-#     script = script.replace("$OUTDIR/", "")
-#     strings = script.split(" ")
-#     script = strings[1]
-#     outfile = strings[5]
-#     option = strings[-1]
-#     infile = "root://eoscms.cern.ch/" + infile
-
-#     with open("../htcondor/hists.txt", "a") as f:
-#         f.write(script + ", " + infile + ", " + outfile + ", " + option + ", " + outdir + "\n")
 
 def get_weeks():
     oms_path = "/eos/cms/store/group/tsg/STEAM/OMSRateNtuple/2024/physics.root"
@@ -63,3 +46,33 @@ def get_weeks():
         result_dict[row['run']] = row['week']
 
     return result_dict
+
+
+def load_filelist(path):
+    try: 
+        with open(path, "r") as f:
+            return [line.strip() for line in f.readlines()]
+    except FileNotFoundError: return []
+
+
+def save_filelist(path, files):
+    with open(path, "w") as f:
+        for file in files:
+            f.write(file + "\n")
+
+
+def hadd(target, files, local):
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+
+    filelist = load_filelist(target.replace('root','txt'))
+
+    if set(filelist) == set(files): 
+        print('skipping ' + target, "already hadded")
+        return
+
+    save_filelist(target.replace('root','txt'), files)
+
+    print(f"Hadding files with target {target}")
+    cmd = f'hadd -f {target} ' + ' '.join(files)
+    if local: run_command(cmd, os.path.dirname(target)+"/log.txt")
+    else: write_queue(cmd)

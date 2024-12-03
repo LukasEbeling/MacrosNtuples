@@ -2,7 +2,7 @@
 
 import os, argparse
 from glob import glob
-from utils import run_script, write_queue, get_weeks
+from utils import hadd, get_weeks
 
 
 #dqm_prefix = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit"
@@ -56,10 +56,4 @@ for file in all_files:
 
 # Hadd grouped files
 for target, files in file_groups.items():
-    print(f"Hadding files with target {target}")
-    os.makedirs(os.path.dirname(target), exist_ok=True)
-    cmd = f'hadd -f {target} ' + ' '.join(files)
-    if local: run_script(cmd)
-    else: write_queue(cmd)
-
-# TODO skip files in filelist.txt 
+    hadd(target, files, local)

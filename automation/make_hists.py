@@ -1,18 +1,12 @@
 #!/bin/python3
 
-import os, sys, subprocess, yaml, argparse
+import os, yaml
 from glob import glob
-from utils import write_queue, parse_file, run_command, tier0, dqm_prefix
+from utils import write_queue, parse_file, run_command, htcondor_flag, tier0, dqm_prefix
 
 config_dict = yaml.safe_load(open('config.yaml', 'r'))
 
-# parse arguments
-parser = argparse.ArgumentParser(description="Run plots for datasets")
-parser.add_argument('--htcondor', action='store_true', help='run on htcondor')
-args = parser.parse_args()
-htcondor = args.htcondor
-
-if htcondor: os.system('rm -rf queue.txt')
+htcondor = htcondor_flag()
 
 # main logic: glob files on tier 0 and run plotting scripts
 for label, config in config_dict.items():

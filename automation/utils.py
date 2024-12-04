@@ -30,7 +30,7 @@ def parse_file(fname):
 def write_queue(script, infile = "", outdir = ""):
     cmd = script.replace("$INFILE", infile).replace("$OUTDIR", outdir)
     cmd = cmd.replace(" ", "___")
-    with open("../htcondor/queue.txt", "a") as f:
+    with open("queue.txt", "a") as f:
         f.write(cmd + "\n")
 
 

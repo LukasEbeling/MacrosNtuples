@@ -31,11 +31,11 @@ for label, config in config_dict.items():
 
         out_web_path = dqm_prefix + parse_file(fname)
 
-        if os.path.exists(out_web_path):
-                root_files = glob(f"{out_web_path}/*.root")
-                if len(root_files) > 0:
-                    print(f"Skipping {out_web_path} - already processed")
-                    continue
+        # abort if histogram root files already exist
+        root_files = glob(f"{out_web_path}/*.root")
+        if len(root_files) > 0:
+            print(f"Skipping {out_web_path} - already processed")
+            continue
 
         for cmd in config["scripts"]: 
             cmd = cmd.replace("$OUTDIR", out_web_path)

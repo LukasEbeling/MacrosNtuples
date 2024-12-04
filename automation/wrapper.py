@@ -12,9 +12,7 @@ args = parser.parse_args()
 
 concatenated_cmd = ' '.join(args.cmd)
 concatenated_cmd = concatenated_cmd.replace("___", " ")
-concatenated_cmd = 'tar -xzf MacrosNtuples.tar.gz; cd MacrosNtuples/l1macros; ' + concatenated_cmd
+#concatenated_cmd = 'tar -xzf MacrosNtuples.tar.gz; cd MacrosNtuples/l1macros; ' + concatenated_cmd
+concatenated_cmd = f'cd /afs/cern.ch/user/l/lebeling/MacrosNtuples/automation; ' + concatenated_cmd
 
-print(concatenated_cmd)
 os.system(concatenated_cmd)
-#os.system("pwd")
-#os.system("ls -a")

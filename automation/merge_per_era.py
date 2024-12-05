@@ -1,25 +1,12 @@
 #!/bin/python3
 
-import os, argparse
 from glob import glob
-from utils import hadd, get_weeks
+from utils import hadd, get_weeks, htcondor_flag, dqm_prefix
 
+htcondor = htcondor_flag()
 
-#dqm_prefix = "/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit"
-dqm_prefix = "/eos/user/l/lebeling/www/DQM" 
-out_prefix = "/eos/user/l/lebeling/www/DQM" 
-
-
-# parse arguments
-parser = argparse.ArgumentParser(description="merge per era")
-parser.add_argument('--local', action='store_true', help='run locally (not on condor)')
-args = parser.parse_args()
-local = args.local
-
-if not local: os.system('rm -rf ../htcondor/queue.txt')
-
-# collect all histogram root files
-all_files = glob(f"{dqm_prefix}/*/*/*/*/*/merged/*.root")
+# collect all histogram root files merged by run
+all_files = glob(f"{dqm_prefix}/*/*/*/*/*/merged/*.root") #change later to dqm_prefix 
 print('found files:', len(all_files))
 
 weeks = get_weeks()
@@ -36,19 +23,19 @@ for file in all_files:
     # group by week - not all run in list? 
     if run in weeks.keys():
         week = weeks[run]
-        target = f"{out_prefix}/{label}/{era}/week_{week}/merged/{filename}"
+        target = f"{dqm_prefix}/Weekly/{week}/{label}/merged/{filename}"
         if target not in file_groups:
             file_groups[target] = []
         file_groups[target].append(file)
 
     # group by era
-    target = f"{out_prefix}/{label}/{era}/merged/{filename}"
+    target = f"{dqm_prefix}/{label}/{era}/merged/{filename}"
     if target not in file_groups:
         file_groups[target] = []
     file_groups[target].append(file)
 
     # group by year
-    target = f"{out_prefix}/{label}/merged/{filename}"
+    target = f"{dqm_prefix}/{label}/merged/{filename}"
     if target not in file_groups:
         file_groups[target] = []
     file_groups[target].append(file)
@@ -56,4 +43,4 @@ for file in all_files:
 
 # Hadd grouped files
 for target, files in file_groups.items():
-    hadd(target, files, local)
+    hadd(target, files, htcondor)

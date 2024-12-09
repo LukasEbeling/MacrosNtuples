@@ -57,27 +57,8 @@ def get_weeks():
     return weeks
 
 
-def load_filelist(path):
-    try: 
-        with open(path, "r") as f:
-            return [line.strip() for line in f.readlines()]
-    except FileNotFoundError: return []
-
-
-def save_filelist(path, files):
-    with open(path, "w") as f:
-        for file in files:
-            f.write(file + "\n")
-
-
 def hadd(target, files, htcondor = False):
     os.makedirs(os.path.dirname(target), exist_ok=True)
-
-    # filelist = load_filelist(target.replace('root','txt'))
-    # if set(filelist) == set(files): 
-    #     print('skipping ' + target, "already hadded")
-    #     return
-    # save_filelist(target.replace('root','txt'), files)
 
     # abort if merged file already exists, and it is newer than all base files
     if os.path.exists(target):
@@ -99,3 +80,7 @@ def htcondor_flag():
     args = parser.parse_args()
     if args.htcondor: os.system('rm -rf queue.txt')
     return args.htcondor
+
+
+def clean(files):
+    return  [file for file in files if os.path.getsize(file) >= 1600]

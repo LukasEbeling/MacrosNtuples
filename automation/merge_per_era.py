@@ -11,7 +11,7 @@ print('found files:', len(all_files))
 
 weeks = get_weeks()
 
-# group files by week, by era, and by year
+# group files by week and era
 file_groups = {}
 for file in all_files:
     parts = file.split('/')
@@ -30,12 +30,6 @@ for file in all_files:
 
     # group by era
     target = f"{dqm_prefix}/{label}/{era}/merged/{filename}"
-    if target not in file_groups:
-        file_groups[target] = []
-    file_groups[target].append(file)
-
-    # group by year
-    target = f"{dqm_prefix}/{label}/merged/{filename}"
     if target not in file_groups:
         file_groups[target] = []
     file_groups[target].append(file)

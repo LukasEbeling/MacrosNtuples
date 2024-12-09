@@ -1,7 +1,7 @@
 #!/bin/python3
 
 from glob import glob
-from utils import hadd, htcondor_flag, dqm_prefix
+from utils import hadd, clean, htcondor_flag, dqm_prefix
 
 # parse arguments
 htcondor = htcondor_flag()
@@ -11,10 +11,11 @@ dqm_official = '/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg
 
 # collect all base histogram root files
 all_files = glob(f"{dqm_official}/*/*/*/*/*/*/*.root")
+cleaned_files = clean(all_files)
 
 # group files by runnum, by era, and by year
 file_groups = {}
-for file in all_files:
+for file in cleaned_files:
     parts = file.split('/') 
     filename = parts[-1]
     filehash = parts[-2]

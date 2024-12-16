@@ -1,4 +1,5 @@
-import os, subprocess, argparse
+import os, subprocess, argparse, uproot
+import pandas as pd
 
 #dqm_prefix = '/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit'
 dqm_prefix = "/eos/user/l/lebeling/www/DQM" 

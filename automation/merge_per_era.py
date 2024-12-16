@@ -7,7 +7,6 @@ htcondor = htcondor_flag()
 
 # collect all histogram root files merged by run
 all_files = glob(f"{dqm_prefix}/*/*/*/*/*/merged/*.root") #change later to dqm_prefix 
-print('found files:', len(all_files))
 
 weeks = get_weeks()
 

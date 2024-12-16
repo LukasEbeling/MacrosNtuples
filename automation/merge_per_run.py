@@ -6,11 +6,8 @@ from utils import hadd, clean, htcondor_flag, dqm_prefix
 # parse arguments
 htcondor = htcondor_flag()
 
-# work around for the moment, remove later 
-dqm_official = '/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/cmsl1dpg/www/DQM/T0PromptNanoMonit' 
-
 # collect all base histogram root files
-all_files = glob(f"{dqm_official}/*/*/*/*/*/*/*.root")
+all_files = glob(f"{dqm_prefix}/*/*/*/*/*/*/*.root")
 cleaned_files = clean(all_files)
 
 # group files by runnum, by era, and by year
